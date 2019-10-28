@@ -1,0 +1,88 @@
+import math
+l = math.log
+
+
+ # %%
+
+class Juros_compostos:
+    def __init__(self, vp = None, vf = None, juros = None, período = None, f_juros = None, f_período = None):
+        self.vp = (vp)
+        self.vf = (vf)
+        self.p = período
+        self.juros = juros*(0.01)
+        self.f_juros = f_juros
+        self.f_período = (f_período)
+#definindo medidas de tempo 
+    ms = 1
+    s = ms*1000
+    m = s*60
+    h = m*60
+    d = 24 * h
+    M = 30*d
+    BM = 2*M
+    TRI = 3*M
+    S = 6*M
+    A = 12*M
+#criando um dicionário utilizando as referencias as medidas de tempo acima
+    tempo = {'ms': ms, 's': s, 'm': m, "h": h, "d": d,
+             "M": M, "BM": BM, "TRI": TRI, "S": S, "A": A}
+# frequencias = {'ms': ms, 's': s, 'm': m, "h": h, "d": d, "M" = M, "BM" = BM; "TRI" = TRI; "S" = S; "A" = A}
+#criando um método para conversão de juros
+    def conversão_juros(self):
+        if self.tempo[self.f_juros] == self.tempo[self.f_período]:
+            self.x = self.tempo[self.f_juros]/self.tempo[self.f_período]
+            print("não precisou de conversão de juros juju")
+            print(self.juros)
+                #se meu juros é maior que o tempo 
+        elif self.tempo[self.f_juros] > self.tempo[self.f_período]:
+                #calcule o juros sobre o tempo ex: a.a -> a.m então o juros vai ser if = (1+ii*)**(1/x) 
+            self.x = self.tempo[self.f_juros]/self.tempo[self.f_período]
+            self.juros = ((1 + self.juros) **(1/self.x)) - 1
+            print(self.x)
+            print("a frequência do juros era menor que a frequencia do período \
+                  então o juros foi convertido para a frequência do período" ) 
+            print(self.juros)
+        else:
+                #se meu juros é menor que o tempo
+            self.x = self.tempo[self.f_período]/self.tempo[self.f_juros]
+            print("a relação entre um e outro é", self.x)
+            print("o juros antes é ", self.juros)
+            self.juros =  ((1 + self.juros) **(self.x)) - 1
+            print("o juros depois ficou", self.juros)
+            print("a frequência do juros era maior que a frequencia do período \
+                  então o juros foi convertido para a frequência do período")
+            
+        
+    #criando um método executa que fará a operação para achar o valor que não foi informado       
+    def executa(self):
+        self.conversão_juros()
+
+        if self.vf == None:
+            #(vf = vp(1+i)^t)
+            #self.vf = ((self.p*(self.tempo[self.f_juros])))
+            self.vf = (self.vp) * (((1 + self.juros)) ** (self.p))
+            print(self.vf)
+
+        elif self.vp == None:
+            #vp = (vf/(1+i)^t)- 1
+            self.vp = self.vf/((1 + self.juros) ** (self.p))
+            print(self.vp)
+            #vf/(vp*
+        elif self.juros == None:
+            self.juros = ( (self.vf/self.vp) ** (1/ (self.p) )  - 1 )
+            print(self.juros)
+
+        else:
+            #t = log(vf/vp)/log(i)
+            self.p = (l(self.vf) - l(self.vp)) /( l(self.juros))
+            print(self.p)
+            # %%
+            
+
+# criando um ativo 
+Ativo = Juros_compostos(vp=10, juros = 3, período=3, f_juros="a", f_período="d")
+#usando o método exectua no ativo
+
+
+Ativo.executa()
+#Ativo.executa()
