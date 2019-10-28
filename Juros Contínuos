@@ -1,0 +1,51 @@
+import math
+e = math.e
+ln = math.log
+
+class Juros_contínuos:
+    def __init__ (self, vp = None, vf = None, juros = None, período = None, f_juros = None, f_período = None):
+        self.vp = (vp)
+        self.vf = (vf)
+        self.p = período
+        self.juros = juros*(0.01)
+        self.f_juros = f_juros
+        self.f_período = (f_período)
+#definindo medidas de tempo 
+    ms = 1
+    s = ms*1000
+    m = s*60
+    h = m*60
+    d = 24 * h
+    M = 30*d
+    BM = 2*M
+    TRI = 3*M
+    S = 6*M
+    A = 12*M
+#criando um dicionário utilizando as referencias as medidas de tempo acima
+    tempo = {'ms': ms, 's': s, 'm': m, "h": h, "d": d,
+             "M": M, "BM": BM, "TRI": TRI, "S": S, "A": A}
+    def executa (self):
+        x = self.tempo[self.f_período]/self.tempo[self.f_juros]
+        #preciso do juros
+        if self.vf == None:
+            self.vf = (self.vp) * (e**(self.juros*self.tempo*x))
+            print(self.vf)
+
+        elif self.vp == None:
+            #vp = (vf/(1+i)^t)- 1
+            self.vp = self.vf/((e)**(self.juros*self.p*x))
+            print(self.vp)
+            #vf/(vp*
+        elif self.juros == None:
+            self.juros = ( ln(self.vf/self.vp)/self.p*x) 
+            print(self.juros)
+
+        else:
+            #t = log(vf/vp)/log(i)
+            self.p = ( ln(self.vf/self.vp)/self.juros*x) 
+            print(self.p)
+            
+            
+            
+Ativoz = Juros_contínuos(1000,5000,30,f_juros = "A", f_período = "A")
+Ativoz.executa()
